@@ -12,6 +12,7 @@ export function DashboardSidebar() {
         { icon: Gear, href: "/settings", label: "Settings" },
     ];
 
+    // Sidebar Links
     const navLinks = <nav className="flex flex-col gap-1">
         {navItems.map((item) => (
             <Link
@@ -24,6 +25,7 @@ export function DashboardSidebar() {
             </Link>
         ))}
     </nav>
+    console.log("Sidebar rendered");
 
     return (
         <>
