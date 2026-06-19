@@ -4,28 +4,10 @@ export default function StatCard({ icon: Icon, title, value, subtitle, }) {
     return (
         <Card
             variant="default"
-            className="
-            mt-10
-        h-full
-        border
-        border-default-100
-        shadow-none
-        transition-all
-        duration-300
-        hover:border-default-200
-      "
+            className=" mt-10 h-full border border-default-100 shadow-none transition-all duration-300 hover:border-default-200"
         >
             <Card.Content className="p-6">
-                <div
-                    className="
-            flex
-            items-center
-            justify-center
-            size-12
-            rounded-xl
-            bg-default-100
-          "
-                >
+                <div className="flex items-center justify-center size-12 rounded-xl bg-default-100">
                     {Icon && (
                         <div className="bg-[#353436] p-2 rounded-md">
                             <Icon className="size-6 text-default-600" />

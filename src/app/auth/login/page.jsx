@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CircleCheckFill, Eye, EyeSlash, TriangleExclamation } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
@@ -130,6 +130,11 @@ export default function LoginPage() {
     const handleChange = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
     const handleBlur = (key) => setTouched((prev) => ({ ...prev, [key]: true }));
 
+
+    // searchParams for redirect after login (e.g. from applying to a job)
+    const searchParams = useSearchParams();
+    const redirectLink = searchParams.get("redirect") || "/";
+
     const handleLogin = async (e) => {
         if (e) e.preventDefault();
         setTouched({ email: true, password: true });
@@ -142,7 +147,7 @@ export default function LoginPage() {
         const { data, error } = await authClient.signIn.email({
             email: form.email.trim().toLowerCase(),
             password: form.password,
-            callbackURL: "/",
+            // callbackURL: "/",
         });
 
         setLoading(false);
@@ -155,7 +160,7 @@ export default function LoginPage() {
 
         setStatus("success");
         setStatusMsg("Welcome back! Redirecting…");
-        setTimeout(() => router.push("/"), 1500);
+        setTimeout(() => router.push(redirectLink), 1500);
     };
 
     // shared input class builder
@@ -311,7 +316,7 @@ export default function LoginPage() {
                     <p className="text-center text-sm text-white/40">
                         Don't have an account?{" "}
                         <Link
-                            href="/register"
+                            href={`/auth/register?redirect=${redirectLink}`}
                             className="inline-flex items-center gap-1 font-medium text-teal-400 hover:text-teal-300 transition-colors duration-150"
                         >
                             Create one

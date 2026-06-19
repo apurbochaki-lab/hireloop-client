@@ -14,6 +14,35 @@ const Navbar = () => {
   const user = session?.user;
   // console.log(session)
 
+  const menuLinks = <>
+    <Link
+      href="/dashboard/recruiter"
+      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
+    >
+      Dashboard
+    </Link>
+    <Link
+      href="/jobs"
+      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
+    >
+      Browse Jobs
+    </Link>
+
+    <Link
+      href="/companies"
+      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
+    >
+      Company
+    </Link>
+
+    <Link
+      href="/pricing-plans"
+      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
+    >
+      Pricing
+    </Link>
+  </>
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0B0B0F]/90 backdrop-blur-xl">
@@ -41,27 +70,9 @@ const Navbar = () => {
 
           {/* Menu Links */}
           <div className="flex items-center gap-8">
-            <Link
-              href="/jobs"
-              className="text-sm font-medium text-white/70 transition hover:text-white"
-            >
-              Browse Jobs
-            </Link>
-
-            <Link
-              href="/companies"
-              className="text-sm font-medium text-white/70 transition hover:text-white"
-            >
-              Company
-            </Link>
-
-            <Link
-              href="/pricing"
-              className="text-sm font-medium text-white/70 transition hover:text-white"
-            >
-              Pricing
-            </Link>
+            {menuLinks}
           </div>
+
 
           {/* Divider */}
           <div className="h-6 w-px bg-white/10" />
@@ -74,7 +85,7 @@ const Navbar = () => {
                   <>
                     <p>Hi, {user?.name}!</p>
                     <Button
-                    onClick={async() => await signOut()}
+                      onClick={async () => await signOut()}
                       variant="outline"
                       className="bg-purple-500/60 font-bold">
                       Log out
@@ -150,27 +161,7 @@ const Navbar = () => {
 
           {/* Mobile Nav Links */}
           <div className="flex flex-col gap-3">
-
-            <Link
-              href="/jobs"
-              className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-            >
-              Browse Jobs
-            </Link>
-
-            <Link
-              href="/companies"
-              className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-            >
-              Company
-            </Link>
-
-            <Link
-              href="/pricing"
-              className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-            >
-              Pricing
-            </Link>
+            {menuLinks}
           </div>
 
           {/* Divider */}
@@ -179,7 +170,7 @@ const Navbar = () => {
           {/* Bottom Buttons */}
           <div className="flex flex-col gap-4">
             <Link
-              href="/signin"
+              href="/auth/login"
               className="rounded-xl border border-white/10 px-5 py-3 text-center text-sm font-medium text-violet-400 transition hover:bg-white/5"
             >
               Sign In

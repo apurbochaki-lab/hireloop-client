@@ -1,10 +1,12 @@
 import JobsDataTable from "@/components/dashboard/JobsDataTable";
+import { getLoggedInRecruiterCompany } from "@/lib/api/companies";
 import { getCompanyJobs } from "@/lib/api/jobs";
 
 const JobsPage = async () => {
-    const companyId = "company_123"; // TODO
+    // const companyId = "company_123"; // TODO
+    const company = await getLoggedInRecruiterCompany()
 
-    const jobsData = await getCompanyJobs(companyId);
+    const jobsData = await getCompanyJobs(company._id) || [];
 
     return (
         <div className="space-y-6">

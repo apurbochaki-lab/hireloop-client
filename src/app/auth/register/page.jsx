@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 
@@ -167,6 +167,13 @@ export default function RegisterPage() {
         setTouched((prev) => ({ ...prev, [key]: true }));
     };
 
+    // Redirect to previous page
+    const searchParams = useSearchParams()
+    const redirectLink = searchParams.get("redirect") || "/";
+
+    // Set plan according to role
+    const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
+
     // সাবমিট হ্যান্ডলার 
     const handleRegister = async (e) => {
         if (e) e.preventDefault();
@@ -181,7 +188,8 @@ export default function RegisterPage() {
             name: form.name.trim(),
             email: form.email.trim().toLowerCase(),
             password: form.password,
-            role
+            role,
+            plan
         });
 
         setLoading(false);
@@ -201,7 +209,7 @@ export default function RegisterPage() {
 
         setForm({ name: "", email: "", password: "" });
         setTouched({});
-        setTimeout(() => router.push("/"), 2000);
+        setTimeout(() => router.push(redirectLink), 2000);
     };
 
     // ============================================================================
@@ -364,7 +372,9 @@ export default function RegisterPage() {
                     {/* লগইন লিংক */}
                     <p className="text-center text-sm text-white/40">
                         Already have an account?{" "}
-                        <Link href="/login" className="inline-flex items-center gap-1 font-medium text-purple-400 hover:text-purple-300 transition-colors duration-150">
+                        <Link
+                            href={`/auth/login?redirect=${redirectLink}`}
+                            className="inline-flex items-center gap-1 font-medium text-purple-400 hover:text-purple-300 transition-colors duration-150">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                                 <path d="M19 12H5M12 5l-7 7 7 7" />
                             </svg>
