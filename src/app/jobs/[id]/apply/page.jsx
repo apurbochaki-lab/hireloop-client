@@ -55,8 +55,7 @@ const JobApplyPage = async ({ params }) => {
 
     const job = await getJobById(id);
 
-    const usedApplications =
-        applications.length;
+    const usedApplications = applications.length;
 
     const remainingApplications =
         Math.max(

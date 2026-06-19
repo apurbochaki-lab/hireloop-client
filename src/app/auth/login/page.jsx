@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CircleCheckFill, Eye, EyeSlash, TriangleExclamation } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
+import { refreshPage } from "@/lib/core/refresh";
 
 // ============================================================================
 // HELPERS
@@ -160,7 +161,10 @@ export default function LoginPage() {
 
         setStatus("success");
         setStatusMsg("Welcome back! Redirecting…");
-        setTimeout(() => router.push(redirectLink), 1500);
+        setTimeout(() => {
+            router.push(redirectLink)
+            refreshPage('/')
+        }, 1500);
     };
 
     // shared input class builder

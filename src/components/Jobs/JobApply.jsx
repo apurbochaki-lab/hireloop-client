@@ -43,6 +43,7 @@ export default function JobApply({ job, applicant, }) {
             resumeUrl,
             portfolioUrl,
             whyHireYou,
+            status: 'applied'
         };
 
         // console.log(applicationData);

@@ -6,48 +6,46 @@ import { ArrowUpRight, Bars, Xmark } from '@gravity-ui/icons'
 import { signOut, useSession } from '@/lib/auth-client'
 import { Button, Spinner } from '@heroui/react'
 
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   // Better auth session
-  const { data: session, isPending } = useSession();
-  const user = session?.user;
-  // console.log(session)
+  const { data: session, isPending } = useSession()
+  const user = session?.user
 
-  const menuLinks = <>
-    <Link
-      href="/dashboard/recruiter"
-      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      Dashboard
-    </Link>
-    <Link
-      href="/jobs"
-      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      Browse Jobs
-    </Link>
+  const navLinks = [
+    {
+      label: 'Browse Jobs',
+      href: '/jobs',
+    },
+    {
+      label: 'Company',
+      href: '/companies',
+    },
+    {
+      label: 'Pricing',
+      href: '/pricing-plans',
+    }
+  ];
 
-    <Link
-      href="/companies"
-      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      Company
-    </Link>
+  const dashboardLinks = {
+    seeker: '/dashboard/seeker',
+    recruiter: '/dashboard/recruiter',
+    admin: '/dashboard/admin'
+  }
 
-    <Link
-      href="/pricing-plans"
-      className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      Pricing
-    </Link>
-  </>
+  if (user?.email) {
+    navLinks.push({
+      label: 'Dashboard',
+      href: dashboardLinks[user?.role || 'seeker']
+    })
+  }
 
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0B0B0F]/90 backdrop-blur-xl">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
-
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500">
@@ -67,46 +65,55 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden items-center gap-5 rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-3 backdrop-blur-xl lg:flex">
-
           {/* Menu Links */}
           <div className="flex items-center gap-8">
-            {menuLinks}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-
 
           {/* Divider */}
           <div className="h-6 w-px bg-white/10" />
 
           {/* Auth Buttons */}
           <div className="flex items-center gap-4">
-            {
-              isPending ? <Spinner color="current" />
-                : user ?
-                  <>
-                    <p>Hi, {user?.name}!</p>
-                    <Button
-                      onClick={async () => await signOut()}
-                      variant="outline"
-                      className="bg-purple-500/60 font-bold">
-                      Log out
-                    </Button>
-                  </>
-                  : <>
-                    <Link
-                      href="/auth/login"
-                      className="text-sm font-medium text-violet-400 transition hover:text-violet-300"
-                    >
-                      Sign In
-                    </Link>
+            {isPending ? (
+              <Spinner color="current" />
+            ) : user ? (
+              <>
+                <p>Hi, {user.name}!</p>
 
-                    <Link
-                      href="/auth/register"
-                      className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90"
-                    >
-                      Get Started
-                    </Link>
-                  </>
-            }
+                <Button
+                  onClick={async () => await signOut()}
+                  variant="outline"
+                  className="bg-purple-500/60 font-bold"
+                >
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth/login"
+                  className="text-sm font-medium text-violet-400 transition hover:text-violet-300"
+                >
+                  Sign In
+                </Link>
+
+                <Link
+                  href="/auth/register"
+                  className="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -126,13 +133,11 @@ const Navbar = () => {
           : 'pointer-events-none opacity-0'
           }`}
       >
-
         {/* Sidebar */}
         <div
           className={`absolute left-0 top-0 flex h-screen w-[280px] flex-col border-r border-white/10 bg-[#111116] p-6 transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
         >
-
           {/* Sidebar Header */}
           <div className="mb-10 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
@@ -161,7 +166,16 @@ const Navbar = () => {
 
           {/* Mobile Nav Links */}
           <div className="flex flex-col gap-3">
-            {menuLinks}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
 
           {/* Divider */}
@@ -177,7 +191,7 @@ const Navbar = () => {
             </Link>
 
             <Link
-              href="/get-started"
+              href="/auth/register"
               className="rounded-xl bg-white px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-white/90"
             >
               Get Started Mobile
