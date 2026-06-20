@@ -115,10 +115,12 @@ export default function PostJobForm({ company }) {
                     </div>
                 </div>
 
-                {company.status === 'Pending' && <div className="font-semibold">Wait for admin approve your company.</div> }
+                {company.status === 'Rejected' && <div className="font-semibold text-rose-500">Your company is rejected by the Admin</div>}
+
+                {company.status === 'Pending' && <div className="font-semibold">Wait for admin approve your company.</div>}
 
                 {/* Hero UI Main Form Handler */}
-                { company.status === 'Approved' && <Form onSubmit={handleSubmit} className="space-y-8" validationErrors={errors} validationBehavior='aria'>
+                {company.status === 'Approved' && <Form onSubmit={handleSubmit} className="space-y-8" validationErrors={errors} validationBehavior='aria'>
 
                     {/* SECTION 1: Job Information */}
                     <Fieldset className="space-y-6 w-full">

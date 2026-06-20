@@ -1,14 +1,9 @@
 import {
     Table,
     Chip,
-    Button,
-    User
+    Button
 } from '@heroui/react';
-// Note: Replace with your actual icons package import path if different
-// import {
-//     BriefcaseIcon,
-//     EyeIcon
-// } from 'gravity-ui-icons';
+
 import { getApplicationsByApplicant } from '@/lib/api/applications';
 import { getUserSession } from '@/lib/core/session';
 import { BriefcaseIcon, EyeIcon } from 'lucide-react';

@@ -13,7 +13,8 @@ const CompanyTable = ({ companies }) => {
     };
 
     const handleReject = async (id) => {
-
+        const result = await updateCompany(id, { status: "Rejected" })
+        console.log("Company Rejected!", result);
     };
 
     // Helper to format date cleanly like "Oct 12, 2023"
