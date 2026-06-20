@@ -108,12 +108,17 @@ export default function PostJobForm({ company }) {
                     <div className="mt-4 inline-flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-zinc-400">
                         <Briefcase size={14} className="text-zinc-500" />
                         Posting as: <span className="font-semibold text-zinc-300">{company.name}</span>
-                        <span className="text-emerald-500 font-medium bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-900/50">Approved</span>
+
+                        <span className={`${company.status === 'Pending' ? "text-amber-500 bg-amber-950/30" : company.status === 'Approved' ? "text-emerald-500 bg-emerald-950/30" : 'text-red-500 bg-red-950/30'} font-medium px-1.5 py-0.5 rounded border border-emerald-900/50`}>
+                            {company.status}
+                        </span>
                     </div>
                 </div>
 
+                {company.status === 'Pending' && <div className="font-semibold">Wait for admin approve your company.</div> }
+
                 {/* Hero UI Main Form Handler */}
-                <Form onSubmit={handleSubmit} className="space-y-8" validationErrors={errors} validationBehavior='aria'>
+                { company.status === 'Approved' && <Form onSubmit={handleSubmit} className="space-y-8" validationErrors={errors} validationBehavior='aria'>
 
                     {/* SECTION 1: Job Information */}
                     <Fieldset className="space-y-6 w-full">
@@ -287,7 +292,7 @@ export default function PostJobForm({ company }) {
                             Post Job
                         </Button>
                     </div>
-                </Form>
+                </Form>}
             </div>
         </div>
     );

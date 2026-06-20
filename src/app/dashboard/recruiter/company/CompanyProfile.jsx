@@ -34,9 +34,8 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
         employeeCount: "",
         logo: "",
         description: "",
-        status: "Pending", // Pending, Approved, Rejected
     }
-    
+
     // Main company info
     const [company, setCompany] = useState(recruiterCompany || blankField);
     console.log(company)
@@ -122,14 +121,14 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
             return;
         }
 
-        
+
         const newCompanyData = {
             ...company,
-            ...data,      // ফর্ম থেকে আসা নতুন সব ডেটা (name, industry, employeeCount ইত্যাদি)
-            recruiterId: recruiter.id
+            ...data,      // (name, industry, employeeCount ইত্যাদি)
+            recruiterId: recruiter.id,
+            status: company && company.status ? company.status : "Pending", // Pending, Approved, Rejected
         };
 
-        // ২. এবার ভেরিয়েবলটি সরাসরি setCompany তে পাস করা হলো
         setCompany(newCompanyData);
 
         setErrors({});
@@ -138,7 +137,10 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
 
         // POST in the database
         const payload = await createCompany(newCompanyData);
-        if (payload.success) {
+        
+        if (payload.insertedId) {
+            const savedCompany = { ...company, _id: payload.insertedId }
+            setCompany(savedCompany)
             toast.success("Company profile created successfully!");
         }
 

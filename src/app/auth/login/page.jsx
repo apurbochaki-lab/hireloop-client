@@ -162,8 +162,8 @@ export default function LoginPage() {
         setStatus("success");
         setStatusMsg("Welcome back! Redirecting…");
         setTimeout(() => {
-            router.push(redirectLink)
             refreshPage('/')
+            router.push(redirectLink)
         }, 1500);
     };
 
